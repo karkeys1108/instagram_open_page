@@ -6,6 +6,13 @@
   <title>Open Picloopz</title>
 
   <style>
+    :root {
+      --blue: #4f8cff;
+      --pink: #ff5fa2;
+      --text: #1a1a1a;
+      --muted: #6b7280;
+    }
+
     body {
       margin: 0;
       min-height: 100vh;
@@ -13,32 +20,48 @@
       align-items: center;
       justify-content: center;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #ffffff;
-      color: #111;
+      background: linear-gradient(135deg, #f5f9ff, #fff5fa);
       padding: 20px;
     }
 
     .container {
       max-width: 360px;
       width: 100%;
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 32px 24px;
       text-align: center;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
+      animation: fadeUp 0.6s ease-out;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     img {
-      width: 110px;
+      width: 100px;
       margin-bottom: 20px;
     }
 
     h1 {
       font-size: 22px;
-      margin-bottom: 12px;
+      color: var(--text);
+      margin-bottom: 10px;
     }
 
     p {
       font-size: 14px;
-      color: #555;
+      color: var(--muted);
       line-height: 1.6;
-      margin-bottom: 24px;
+      margin-bottom: 26px;
     }
 
     button {
@@ -47,16 +70,32 @@
       font-size: 16px;
       font-weight: 600;
       border: none;
-      border-radius: 8px;
-      background: #111;
-      color: #fff;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--blue), var(--pink));
+      color: #ffffff;
       cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(79, 140, 255, 0.3);
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        box-shadow: 0 0 0 0 rgba(255, 95, 162, 0.4);
+      }
+      50% {
+        box-shadow: 0 0 0 8px rgba(255, 95, 162, 0);
+      }
     }
 
     .note {
-      margin-top: 14px;
+      margin-top: 16px;
       font-size: 12px;
-      color: #888;
+      color: #9ca3af;
     }
   </style>
 </head>
@@ -69,13 +108,13 @@
 
     <p>
       Instagram’s in-app browser may block login or payments.<br>
-      Please open Picloopz in your browser.
+      Open Picloopz in your browser for the best experience.
     </p>
 
     <button onclick="openInBrowser()">Open Picloopz</button>
 
     <div class="note">
-      Best experience in Chrome or Safari
+      Works best in Chrome or Safari
     </div>
   </div>
 
@@ -88,14 +127,12 @@
       const isAndroid = ua.includes("Android");
 
       if (isInstagram && isAndroid) {
-        // ✅ Forces Chrome on Android
         window.location.href =
           "intent://picloopz.com#Intent;" +
           "scheme=https;" +
           "package=com.android.chrome;" +
           "end";
       } else {
-        // Normal open
         window.open(url, "_blank");
       }
     }
